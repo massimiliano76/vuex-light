@@ -1,12 +1,13 @@
 import { createStore } from 'vuex-light'
-import { CURRENCY_SYMBOLS, Dish, Restaurant } from './static'
+import { CURRENCYS, Dish, Restaurant } from './static'
 import { fetchMoreRestaurants } from './api'
 import { useRouter } from 'vue-router'
 
 const store = createStore({
   state: {
-    currencySymbol: CURRENCY_SYMBOLS.$,
     restaurants: [] as Restaurant[],
+    currency: 'HUF' || CURRENCYS[0],
+    exchangeRates: {} as { [P: string]: number },
   },
 
   getters: {
@@ -17,8 +18,11 @@ const store = createStore({
   },
 
   mutations: {
-    changeCurrencySymbol({ state }, currencySymbol: CURRENCY_SYMBOLS) {
-      state.currencySymbol = currencySymbol
+    setCurrency({ state }, currency: typeof CURRENCYS[0]) {
+      state.currency = currency
+    },
+    setExchangeRates({ state }, exchangeRates: { [P: string]: number }) {
+      state.exchangeRates = exchangeRates
     },
     setRestaurants({ state }, restaurants: Restaurant[]) {
       state.restaurants = restaurants
@@ -40,6 +44,15 @@ const store = createStore({
   actions: {
     async fetchRestaurants({ mutations }) {
       mutations.setRestaurants(await fetchMoreRestaurants())
+    },
+    async fetchExchangeRate({ mutations }) {
+      fetch('https://api.exchangeratesapi.io/latest?base=USD', { mode: 'cors' })
+        .then(async response => {
+          mutations.setExchangeRates((await response.json()).rates)
+        })
+        .catch(error => {
+          console.error(error)
+        })
     },
   },
 })

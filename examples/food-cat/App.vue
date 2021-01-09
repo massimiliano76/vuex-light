@@ -15,6 +15,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
+    store.actions.fetchExchangeRate()
     store.actions.fetchRestaurants()
   },
 })

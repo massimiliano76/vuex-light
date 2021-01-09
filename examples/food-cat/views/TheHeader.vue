@@ -1,14 +1,37 @@
 <template>
   <header>
-    <h1>Food Cat</h1>
+    <router-link to="/">
+      <h1>Food Cat</h1>
+    </router-link>
+    <select v-model="currency">
+      <template v-for="currency of CURRENCYS" :key="currency">
+        <option :value="currency">{{ currency }}</option>
+      </template>
+    </select>
   </header>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { CURRENCYS } from '../static'
+import { useStore } from '../store'
 
 export default defineComponent({
   name: 'top-header',
+  setup() {
+    const currency = computed({
+      set(value: typeof CURRENCYS[0]) {
+        useStore().mutations.setCurrency(value)
+      },
+      get() {
+        return useStore().state.currency
+      },
+    })
+    return {
+      currency,
+      CURRENCYS,
+    }
+  },
 })
 </script>
 

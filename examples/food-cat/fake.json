@@ -1,0 +1,54 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string",
+        "faker": "company.companyName"
+      },
+      "phoneNumber": {
+        "type": "string"
+      },
+      "address": {
+        "type": "string"
+      },
+      "dishes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "faker": "commerce.productName"
+            },
+            "description": {
+              "type": "string"
+            },
+            "price": {
+              "type": "string",
+              "faker": "commerce.price"
+            },
+            "remaining": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "imageUrl": {
+              "type": "string",
+              "faker": "image.imageUrl"
+            }
+          },
+          "required": ["name", "description", "price", "remaining"]
+        },
+        "minItems": 10,
+        "maxItems": 30
+      }
+    },
+    "required": ["id", "name", "phoneNumber", "address", "dishes"]
+  },
+  "minItems": 30
+}

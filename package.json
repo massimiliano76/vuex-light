@@ -36,6 +36,7 @@
     "@microsoft/api-extractor": "^7.12.1",
     "@rollup/plugin-node-resolve": "^11.0.1",
     "@rollup/plugin-replace": "^2.3.4",
+    "@types/json-schema-faker": "^0.5.1",
     "@types/ramda": "^0.27.34",
     "@vue/test-utils": "^2.0.0-beta.13",
     "dom-storage": "^2.1.0",
@@ -70,5 +71,8 @@
     "release": "standard-version",
     "test": "jest",
     "lint": "prettier --check ."
+  },
+  "dependencies": {
+    "json-schema-faker": "^0.5.0-rcv.32"
   }
 }
