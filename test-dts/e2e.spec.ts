@@ -41,11 +41,10 @@ it('e2e', () => {
         state.notExists = 0
 
         expectType<TypeEqual<number, typeof getters.double>>(true)
-        // TODO
-        // expectType<TypeEqual<any, typeof getters.double>>(false)
+        expectType<TypeEqual<any, typeof getters.double>>(false)
         // @ts-expect-error
         getters.double = 0
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         getters.notExists
         // @ts-expect-error
         getters.notExists = 0
@@ -67,29 +66,28 @@ it('e2e', () => {
         state.notExists = 0
 
         expectType<TypeEqual<number, typeof getters.double>>(true)
-        // TODO
-        // expectType<TypeEqual<any, typeof getters.double>>(false)
+        expectType<TypeEqual<any, typeof getters.double>>(false)
         // @ts-expect-error
         getters.double = 0
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         getters.notExists
         // @ts-expect-error
         getters.notExists = 0
 
         expectType<TypeEqual<() => void, typeof mutations.increment>>(true)
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.increment('notExists')
         // @ts-expect-error
         mutations.increment = () => {}
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.notExists
         // @ts-expect-error
         mutations.notExists = () => {}
 
         expectType<TypeEqual<(number: number, condition: boolean) => void, typeof mutations.incrementByNumberIf>>(true)
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.incrementByNumberIf(0)
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.incrementByNumberIf(0, false, 'notExists')
 
         expectType<TypeEqual<any, typeof actions.increment>>(true)

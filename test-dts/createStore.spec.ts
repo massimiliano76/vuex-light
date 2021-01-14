@@ -235,11 +235,11 @@ it("mutations as action's param", () => {
     actions: {
       increment({ mutations }) {
         expectType<TypeEqual<() => void, typeof mutations.increment>>(true)
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.increment('notExists')
         // @ts-expect-error
         mutations.increment = () => {}
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.notExists
         // @ts-expect-error
         mutations.notExists = () => {}
@@ -257,9 +257,9 @@ it("mutations with payload as action's param", () => {
     actions: {
       increment({ mutations }) {
         expectType<TypeEqual<(number: number, condition: boolean) => void, typeof mutations.incrementByNumberIf>>(true)
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.incrementByNumberIf(0)
-        // TODO: @ts-expect-error
+        // @ts-expect-error
         mutations.incrementByNumberIf(0, false, 'notExists')
       },
     },

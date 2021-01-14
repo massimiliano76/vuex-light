@@ -13,8 +13,8 @@ import {
 /**
  * @public
  */
-export type StateOption = {
-  [P: string]: any
+export type StateOption<Keys extends string> = {
+  [P in Keys]: any
 }
 
 /**
@@ -25,8 +25,8 @@ export type StateReturnType<StateOption> = DeepReadonly<StateOption>
 /**
  * @public
  */
-export type GettersOption<StateReturnType> = {
-  [P: string]: ({ state, getters }: { state: StateReturnType; getters: any }) => any
+export type GettersOption<StateReturnType, Keys extends string> = {
+  [P in Keys]: ({ state, getters }: { state: StateReturnType; getters: any }) => any
 }
 
 /**
@@ -46,8 +46,8 @@ export type Payload = any
 /**
  * @public
  */
-export type MutationsOption<StateOption, GettersReturnType> = {
-  [P: string]: (
+export type MutationsOption<StateOption, GettersReturnType, Keys extends string> = {
+  [P in Keys]: (
     { state, getters, mutations }: { state: StateOption; getters: GettersReturnType; mutations: any },
     ...payloads: Payload[]
   ) => void
@@ -65,8 +65,8 @@ export type MutationsReturnType<MutationsOption> = ShallowReadonly<
 /**
  * @public
  */
-export type ActionsOption<StateReturnType, GettersReturnType, MutationsReturnType> = {
-  [P: string]: (
+export type ActionsOption<StateReturnType, GettersReturnType, MutationsReturnType, Keys extends string> = {
+  [P in Keys]: (
     {
       state,
       getters,
@@ -114,17 +114,23 @@ export type CreateStoreReturnType = ReturnType<typeof createStore>
  * @public
  */
 export function createStore<
-  State extends StateOption,
-  Getters extends GettersOption<StateReturnType<State>> = GettersOption<StateReturnType<State>>,
-  Mutations extends MutationsOption<State, GettersReturnType<Getters>> = MutationsOption<
+  StateKeys extends string,
+  State extends StateOption<StateKeys>,
+  GetterKeys extends string = string,
+  Getters extends GettersOption<StateReturnType<State>, GetterKeys> = GettersOption<StateReturnType<State>, GetterKeys>,
+  MutationKeys extends string = string,
+  Mutations extends MutationsOption<State, GettersReturnType<Getters>, MutationKeys> = MutationsOption<
     State,
-    GettersReturnType<Getters>
+    GettersReturnType<Getters>,
+    MutationKeys
   >,
+  ActionsKeys extends string = string,
   Actions extends ActionsOption<
     StateReturnType<State>,
     GettersReturnType<Getters>,
-    MutationsReturnType<Mutations>
-  > = ActionsOption<StateReturnType<State>, GettersReturnType<Getters>, MutationsReturnType<Mutations>>
+    MutationsReturnType<Mutations>,
+    ActionsKeys
+  > = ActionsOption<StateReturnType<State>, GettersReturnType<Getters>, MutationsReturnType<Mutations>, ActionsKeys>
 >(options: { state: State; getters?: Getters; mutations?: Mutations; actions?: Actions; plugins?: Plugin[] }) {
   if (__DEV__) {
     assert(isPlainObject(options.state), 'invalid state type.')
