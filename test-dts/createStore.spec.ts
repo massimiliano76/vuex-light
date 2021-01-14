@@ -36,7 +36,7 @@ it("state as getter's param", () => {
       count: 0,
     },
     getters: {
-      double({ state }) {
+      double: ({ state }) => {
         expectType<TypeEqual<number, typeof state.count>>(true)
         expectType<TypeEqual<any, typeof state.count>>(false)
         // @ts-expect-error
@@ -54,7 +54,7 @@ it("getter as getter's param", () => {
   createStore({
     state: {},
     getters: {
-      double({ getters }) {
+      double: ({ getters }) => {
         expectType<TypeEqual<any, typeof getters>>(true)
       },
     },
@@ -67,10 +67,10 @@ it('getter', () => {
   const store = createStore({
     state: {},
     getters: {
-      double() {
+      double: () => {
         return 0
       },
-      nested() {
+      nested: () => {
         return {
           double: 0,
         }
@@ -105,7 +105,7 @@ it("state as mutation's param", () => {
       count: 0,
     },
     mutations: {
-      increment({ state }) {
+      increment: ({ state }) => {
         expectType<TypeEqual<number, typeof state.count>>(true)
         expectType<TypeEqual<any, typeof state.count>>(false)
         state.count = 0
@@ -125,7 +125,7 @@ it("getter as mutation's param", () => {
       double: () => 0,
     },
     mutations: {
-      increment({ getters }) {
+      increment: ({ getters }) => {
         expectType<TypeEqual<number, typeof getters.double>>(true)
         expectType<TypeEqual<any, typeof getters.double>>(false)
         // @ts-expect-error
@@ -143,7 +143,7 @@ it("mutation as mutation's param", () => {
   createStore({
     state: {},
     mutations: {
-      increment({ mutations }) {
+      increment: ({ mutations }) => {
         expectType<TypeEqual<any, typeof mutations.notExists>>(true)
       },
     },
@@ -154,7 +154,7 @@ it('mutation', () => {
   const store = createStore({
     state: {},
     mutations: {
-      increment() {},
+      increment: () => {},
     },
   })
 
@@ -174,7 +174,7 @@ it('mutation with payload', () => {
   const store = createStore({
     state: {},
     mutations: {
-      incrementByNumberIf({}, _number: number, _condition: boolean) {},
+      incrementByNumberIf: ({}, _number: number, _condition: boolean) => {},
     },
   })
 
@@ -191,7 +191,7 @@ it("state as action's param", () => {
       count: 0,
     },
     actions: {
-      increment({ state }) {
+      increment: ({ state }) => {
         expectType<TypeEqual<number, typeof state.count>>(true)
         expectType<TypeEqual<any, typeof state.count>>(false)
         // @ts-expect-error
@@ -212,7 +212,7 @@ it("getters as action's param", () => {
       double: () => 0,
     },
     actions: {
-      increment({ getters }) {
+      increment: ({ getters }) => {
         expectType<TypeEqual<number, typeof getters.double>>(true)
         expectType<TypeEqual<any, typeof getters.double>>(false)
         // @ts-expect-error
@@ -230,10 +230,10 @@ it("mutations as action's param", () => {
   createStore({
     state: {},
     mutations: {
-      increment() {},
+      increment: () => {},
     },
     actions: {
-      increment({ mutations }) {
+      increment: ({ mutations }) => {
         expectType<TypeEqual<() => void, typeof mutations.increment>>(true)
         // @ts-expect-error
         mutations.increment('notExists')
@@ -252,10 +252,10 @@ it("mutations with payload as action's param", () => {
   createStore({
     state: {},
     mutations: {
-      incrementByNumberIf({}, _number: number, _condition: boolean) {},
+      incrementByNumberIf: ({}, _number: number, _condition: boolean) => {},
     },
     actions: {
-      increment({ mutations }) {
+      increment: ({ mutations }) => {
         expectType<TypeEqual<(number: number, condition: boolean) => void, typeof mutations.incrementByNumberIf>>(true)
         // @ts-expect-error
         mutations.incrementByNumberIf(0)
@@ -270,8 +270,8 @@ it('mutation cannot be async function', () => {
   const store = createStore({
     state: {},
     mutations: {
-      async incrementAsync() {},
-      incrementPromise() {
+      incrementAsync: async () => {},
+      incrementPromise: () => {
         return Promise.resolve()
       },
     },
@@ -286,7 +286,7 @@ it("action as action's param", () => {
   createStore({
     state: {},
     actions: {
-      increment({ actions }) {
+      increment: ({ actions }) => {
         expectType<TypeEqual<any, typeof actions.increment>>(true)
       },
     },
@@ -297,7 +297,7 @@ it('action', () => {
   const store = createStore({
     state: {},
     actions: {
-      increment() {},
+      increment: () => {},
     },
   })
 
@@ -316,7 +316,7 @@ it('action with payload', () => {
   const store = createStore({
     state: {},
     actions: {
-      incrementByNumberIf({}, _number: number, _condition: boolean) {},
+      incrementByNumberIf: ({}, _number: number, _condition: boolean) => {},
     },
   })
 
@@ -331,8 +331,8 @@ it('async action', () => {
   const store = createStore({
     state: {},
     actions: {
-      async incrementAsync() {},
-      incrementPromise() {
+      incrementAsync: async () => {},
+      incrementPromise: () => {
         return Promise.resolve()
       },
     },

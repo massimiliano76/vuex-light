@@ -13,7 +13,7 @@ it('e2e', () => {
     },
 
     getters: {
-      double({ state, getters }) {
+      double: ({ state, getters }) => {
         expectType<TypeEqual<number, typeof state.count>>(true)
         expectType<TypeEqual<any, typeof state.count>>(false)
         // @ts-expect-error
@@ -30,8 +30,8 @@ it('e2e', () => {
     },
 
     mutations: {
-      increment() {},
-      incrementByNumberIf({ state, getters, mutations }, _number: number, _condition: boolean) {
+      increment: () => {},
+      incrementByNumberIf: ({ state, getters, mutations }, _number: number, _condition: boolean) => {
         expectType<TypeEqual<number, typeof state.count>>(true)
         expectType<TypeEqual<any, typeof state.count>>(false)
         state.count = 0
@@ -54,8 +54,8 @@ it('e2e', () => {
     },
 
     actions: {
-      increment() {},
-      incrementByNumberIf({ state, getters, mutations, actions }, _number: number, _condition: boolean) {
+      increment: () => {},
+      incrementByNumberIf: ({ state, getters, mutations, actions }, _number: number, _condition: boolean) => {
         expectType<TypeEqual<number, typeof state.count>>(true)
         expectType<TypeEqual<any, typeof state.count>>(false)
         // @ts-expect-error
